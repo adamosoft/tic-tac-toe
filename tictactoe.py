@@ -106,14 +106,12 @@ class Tic_tac_toe:
       return True
 
   def evaluate_draw(self) -> bool:
-
+    """
+    Method evaluates if game ended up with draw
+    """
     for row_i in range(len(self.desk)):
       for column_i in range(len(self.desk[0])):
         if self.desk[row_i][column_i] == None:
           return False
 
     return True
-    
-    
-#game = Tic_tac_toe()
-#game.run()
