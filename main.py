@@ -1,13 +1,15 @@
 import pygame as pg
 import sys
-from tictactoe import Tic_tac_toe
+from logic import Tic_tac_toe
 from pygame.locals import *
+
 
 class Game:
 
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self.ready_to_reset = False
 
         #loading the images
         self.x_img = pg.image.load('x.png')
@@ -23,7 +25,11 @@ class Game:
         self.screen = pg.display.set_mode((self.width, self.height),0,32)
         self.initialize()   # draw game board
 
+
     def initialize(self):
+
+        self.ready_to_reset = False
+        self.game = Tic_tac_toe()   # create logic object
 
         line_color = (10,10,10)
         self.screen.fill((255,255,255))
@@ -35,8 +41,7 @@ class Game:
         pg.draw.line(self.screen,line_color,(0,self.height/3),(self.width, self.height/3),7)
         pg.draw.line(self.screen,line_color,(0,self.height/3*2),(self.width, self.height/3*2),7)
 
-
-        self.game = Tic_tac_toe()   # create logic object
+        pg.display.update()
 
 
     def draw_XO(self,row, column, player):
@@ -66,6 +71,7 @@ class Game:
 
 
     def click(self):
+
         # get mouse pos
         x,y = pg.mouse.get_pos()
 
@@ -109,11 +115,13 @@ class Game:
 
 
     def ending(self,winner):
+
         white = (255, 255, 255)
         black = (0, 0, 0)
         self.screen.fill(black)
 
-        if not self.game.draw:
+
+        if self.game.winner:
             message = f"Player {winner} has won the game!"
         else:
             message = "Draw!"
@@ -123,8 +131,9 @@ class Game:
         text = font.render(message, True, white, black)
         textRect = text.get_rect(center = self.screen.get_rect().center)
         self.screen.blit(text, textRect)
-        pg.display.update()
 
+        pg.display.update()
+        self.ready_to_reset = True
 
     def run(self):
         while(True):
@@ -133,10 +142,14 @@ class Game:
                     pg.quit()
                     sys.exit()
                 elif event.type is MOUSEBUTTONDOWN:
+
                     self.click()
+                    if self.ready_to_reset:
+                        self.initialize()
                     if self.game.winner or self.game.draw:
                         self.ending(self.game.winner)
-                    
+                        
+
             pg.display.update()
             self.CLOCK.tick(self.fps)
 
