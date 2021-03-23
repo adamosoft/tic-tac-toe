@@ -27,6 +27,9 @@ class Game:
 
 
     def initialize(self):
+        """
+        Draw clear game board
+        """
 
         self.ready_to_reset = False
         self.game = Tic_tac_toe()   # create logic object
