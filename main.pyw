@@ -95,13 +95,8 @@ class Game:
         else:
             row = None
 
-        valid_move = True
         # adding move to logic engine
-        if self.game.desk[row - 1][col - 1] == None:    # If this place has not been already taken
-            self.game.desk[row - 1][col - 1] = self.game.players[self.game.player]
-        else:
-            valid_move = False
-
+        self.game.desk[row - 1][col - 1] = self.game.players[self.game.player]
         # if noone has won
         if self.game.evaluate_win() != None:
             self.game.winner = self.game.player
@@ -110,14 +105,13 @@ class Game:
             self.game.draw = True
 
         # draw move
-        if valid_move:
-            self.draw_XO(row, col, self.game.player)
+        self.draw_XO(row, col, self.game.player)
 
-            # change player
-            if self.game.player == 1:
-              self.game.player = 2
-            else:
-              self.game.player = 1
+        # change player
+        if self.game.player == 1:
+          self.game.player = 2
+        else:
+          self.game.player = 1
 
 
     def ending(self,winner):
@@ -142,11 +136,7 @@ class Game:
         self.ready_to_reset = True
 
     def run(self):
-        """
-        Pygame loop
-        """
-
-        while True:
+        while(True):
             for event in pg.event.get():
                 if event.type == QUIT:
                     pg.quit()
