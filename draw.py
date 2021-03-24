@@ -162,6 +162,7 @@ class Game:
         pg.display.update()
         self.ready_to_reset = True
 
+
     def run(self):
         """
         Pygame loop
