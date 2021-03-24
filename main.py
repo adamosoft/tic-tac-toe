@@ -15,8 +15,8 @@ class Game:
         self.x_img = pg.image.load('x.png')
         self.o_img = pg.image.load('o.png')
         #resizing images
-        self.x_img = pg.transform.scale(self.x_img, (80,80))    # vylepšiť scale v zavislosti od width, height
-        self.o_img = pg.transform.scale(self.o_img, (80,80))
+        self.x_img = pg.transform.scale(self.x_img, (self.width // 5, self.height // 5))
+        self.o_img = pg.transform.scale(self.o_img, (self.width // 5, self.height // 5))
         #initializing pygame window
         self.fps = 30
         self.CLOCK = pg.time.Clock()
@@ -47,22 +47,25 @@ class Game:
         pg.display.update()
 
 
-    def draw_XO(self,row, column, player):
+    def draw_XO(self, row, column, player):
+
+        X_MARGIN = int((3 / 40) * self.width)
+        Y_MARGIN = int((3 / 40) * self.height)
 
         # evaluating where to draw image
         if row == 1:
-            posx = 30
+            posx = X_MARGIN
         if row == 2:
-            posx = int(self.width/3) + 30
+            posx = int(self.width/3) + X_MARGIN
         if row == 3:
-            posx = int(self.width/3*2) + 30
+            posx = int(self.width/3*2) + X_MARGIN
 
         if column == 1:
-            posy = 30
+            posy = Y_MARGIN
         if column == 2:
-            posy = int(self.height/3) + 30
+            posy = int(self.height/3) + Y_MARGIN
         if column == 3:
-            posy = int(self.height/3*2) + 30
+            posy = int(self.height/3*2) + Y_MARGIN
 
         # Displayed image depends on which player's move is
         if player == 1:
@@ -170,5 +173,5 @@ class Game:
             self.CLOCK.tick(self.fps)
 
 
-game = Game(400,400)
+game = Game(800, 800)
 game.run()
