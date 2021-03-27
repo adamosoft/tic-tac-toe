@@ -2,11 +2,13 @@ import pygame as pg
 import sys
 from logic import Tic_tac_toe
 from pygame.locals import *
+from typing import Optional
 
 
 class Game:
 
-    def __init__(self, width = 400, height = 400):
+    def __init__(self, width = 400, height = 400) -> None:
+
         self.width = width
         self.height = height
         self.ready_to_reset = False
@@ -26,7 +28,7 @@ class Game:
         self.initialize()   # draw game board
 
 
-    def initialize(self):
+    def initialize(self) -> None:
         """
         Draw clear game board
         """
@@ -47,7 +49,10 @@ class Game:
         pg.display.update()
 
 
-    def draw_desk(self):
+    def draw_desk(self) -> None:
+        """
+        Draws full game-desk after each move
+        """
 
         self.screen.fill((255,255,255))
         line_color = (10,10,10)
@@ -88,12 +93,15 @@ class Game:
         pg.display.update() #refresh
 
 
-    def click(self):
+    def click(self) -> None:
+        """
+        Event method for click
+        """
 
         # get mouse pos
         x,y = pg.mouse.get_pos()
 
-        # evaluating where has player clicked
+        # evaluating where player has clicked
         if(x<self.width/3):
             col = 1
         elif (x<self.width/3*2):
@@ -102,8 +110,8 @@ class Game:
             col = 3
         else:
             col = None
-            
-        # row
+
+
         if(y<self.height/3):
             row = 1
         elif (y<self.height/3*2):
@@ -112,6 +120,7 @@ class Game:
             row = 3
         else:
             row = None
+
 
         valid_move = True
         # adding move to logic engine
@@ -138,7 +147,7 @@ class Game:
               self.game.player = 1
 
 
-    def ending(self,winner):
+    def ending(self, winner: Optional[str]) -> None:
         """
         Ending screen
         """
@@ -163,7 +172,21 @@ class Game:
         self.ready_to_reset = True
 
 
-    def run(self):
+    def resize(self, w: int, h: int) -> None:
+        """
+        Draws resized window
+        """
+
+        self.width = w
+        self.height = h
+        self.screen = pg.display.set_mode((self.width, self.height), RESIZABLE)
+        self.x_img = pg.transform.scale(self.x_img, (self.width // 5, self.height // 5))
+        self.o_img = pg.transform.scale(self.o_img, (self.width // 5, self.height // 5))
+        self.draw_desk()
+        pg.display.update()
+
+
+    def run(self) -> None:
         """
         Pygame loop
         """
@@ -171,25 +194,22 @@ class Game:
         while True:
             for event in pg.event.get():
                 if event.type == QUIT:
+                    # Window quit
                     pg.quit()
                     sys.exit()
-                elif event.type is MOUSEBUTTONDOWN:
 
+                elif event.type is MOUSEBUTTONDOWN:
+                    # Click
                     self.click()
                     if self.ready_to_reset:
                         self.initialize()
                     if self.game.winner or self.game.draw:
                         self.ending(self.game.winner)
+
                 elif event.type == VIDEORESIZE:
-                    self.width = event.w
-                    self.height = event.h
-                    self.screen = pg.display.set_mode((self.width, self.height), RESIZABLE)
-                    self.x_img = pg.transform.scale(self.x_img, (self.width // 5, self.height // 5))
-                    self.o_img = pg.transform.scale(self.o_img, (self.width // 5, self.height // 5))
-                    self.draw_desk()
-                    pg.display.update()
+                    # Resize
+                    self.resize(event.w, event.h)
 
             pg.display.update()
             self.CLOCK.tick(self.fps)
 
-            
