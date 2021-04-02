@@ -218,6 +218,10 @@ class Singleplayer:
                     # Resize
                     self.resize(event.w, event.h)
 
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        return None
+
             pg.display.update()
             self.CLOCK.tick(self.fps)
 
