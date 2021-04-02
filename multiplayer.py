@@ -5,7 +5,7 @@ from pygame.locals import *
 from typing import Optional
 
 
-class Game:
+class Multiplayer:
 
     def __init__(self, width = 400, height = 400) -> None:
 
@@ -23,7 +23,7 @@ class Game:
         self.fps = 30
         self.CLOCK = pg.time.Clock()
         pg.init()
-        pg.display.set_caption("Tic Tac Toe")
+        pg.display.set_caption("Multiplayer")
         self.screen = pg.display.set_mode((self.width, self.height), RESIZABLE)
         self.initialize()   # draw game board
 

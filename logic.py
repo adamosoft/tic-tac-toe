@@ -105,6 +105,7 @@ class Tic_tac_toe:
     if self.diagonal() != None:
       return True
 
+
   def evaluate_draw(self) -> bool:
     """
     Method evaluates if game ended up with draw
@@ -115,3 +116,15 @@ class Tic_tac_toe:
           return False
 
     return True
+
+
+  def get_empty_positions(self) -> List:
+    res = []
+    for row_i in range(len(self.desk)):
+      for column_i in range(len(self.desk[0])):
+        if self.desk[row_i][column_i] == None:
+          res.append((row_i, column_i))
+
+    return res
+
+
